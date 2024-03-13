@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pobieranie danych z serwera API</title>
+    <script>
+      var host = window.location.host;
+      console.log(host);
+      const Posttobackend = async (values) => {
+        try {
+          const response = await fetch(`http://localhost:5022/api/cars`, {
+            method: "GET",
+            headers: {
+              "ngrok-skip-browser-warning": "any",
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            return data;
+          } else {
+            const errorData = await response.json();
+            throw new Error(
+              `Error: ${
+                errorData.message ||
+                "An error occurred while processing your reservation. Please try again."
+              }`
+            );
+          }
+        } catch (error) {
+          console.error("Error: ", error);
+          throw error;
+        }
+      };
+      Posttobackend();
+    </script>
+  </head>
+  <body>
+    <!-- Tutaj możesz dodać elementy HTML do wyświetlenia danych, np. divy, tabele itp. -->
+  </body>
+</html>
